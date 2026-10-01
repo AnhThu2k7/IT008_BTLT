@@ -20,5 +20,25 @@ namespace BTLT01
         {
             InitializeComponent();
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Nu_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Xoa_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
