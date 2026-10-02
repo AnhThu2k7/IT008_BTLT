@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="BTLT01.UserDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BTLT01"
+             mc:Ignorable="d" 
+             d:DesignHeight="265" d:DesignWidth="320">
+    
+    <Border BorderBrush="#E5E7EB" BorderThickness="1.5" CornerRadius="8" Padding="10" Background="#F9FAFB">
+        <Grid>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Avatar -->
+            <Border Width="110" Height="110" BorderBrush="#D1D5DB" BorderThickness="2" CornerRadius="55">
+                <Border.Clip>
+                    <EllipseGeometry Center="55,55" RadiusX="55" RadiusY="55"/>
+                </Border.Clip>
+
+                <Image x:Name="imgAvatar" Source="{Binding Avatar}" Stretch="UniformToFill"/>
+            </Border>
+
+            <!-- Thông tin chi tiết -->
+            <StackPanel Grid.Row="1"  HorizontalAlignment="Center" Margin="0,15,0,0">
+                <TextBlock x:Name="txtMaSV" Text="{Binding StudentId, StringFormat=MSSV: {0}}" FontSize="15" FontWeight="Bold" Foreground="#111827" Margin="0,0,0,6"/>
+                <TextBlock x:Name="txtHoTen" Text="{Binding FullName, StringFormat='Họ tên: {0}'}" Foreground="#374151" Margin="0,0,0,6"/>
+                <TextBlock x:Name="txtNgaySinh" Text="{Binding DateOfBirth, StringFormat='Ngày sinh: {0:dd/MM/yyyy}'}" FontSize="14" Foreground="#374151" Margin="0,0,0,6"/>
+                <TextBlock x:Name="txtGioiTinh" Text="{Binding Gender, StringFormat='Giới tính: {0}'}" Foreground="#374151" Margin="0,0,0,6"/>
+                <TextBlock x:Name="txtTruong" Text="{Binding University, StringFormat='Trường: {0}'}" FontSize="14" Foreground="#374151"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

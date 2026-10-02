@@ -4,79 +4,151 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BTLT01"
+        FontFamily="Times New Roman"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1200">
     <Grid>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="360"/>
-            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer x:Name="ThanhTruotTrai" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel x:Name="CotTrai">
-                <GroupBox x:Name="FormDienChoSinhVien" Header="Form điền thông tin sinh viên" FontFamily="Times New Roman"  Margin="0,0,0,10" Padding="10" Height="290">
-                    <StackPanel x:Name="LayThongTin" Height="247">
-                        <TextBlock x:Name="MSSV" Text="MSSV:" FontSize="15" FontWeight="Bold" FontFamily="Times New Roman" Margin="0,0,0,2"/>
-                        <TextBox x:Name="NhapMSSV" Margin="0,0,0,10" TextWrapping="Wrap" Text="e.g.,001" Foreground="Gray" VerticalContentAlignment="Center" Height="25"/>
-                        <TextBlock x:Name="HoTen" Text="Họ và tên:" FontSize="15" FontWeight="Bold" FontFamily="Times New Roman" Margin="0,0,0,2"/>
-                        <TextBox x:Name="NhapHoTen" Height="25" Margin="0,0,0,10" TextWrapping="Wrap" Foreground="Gray" VerticalContentAlignment="Center"/>
+        
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="10">
+            <StackPanel>
+                <GroupBox Header="Form điền thông tin sinh viên" Margin="0,0,0,10" Padding="10">
+                    
+                    <StackPanel x:Name="GetInfor">
+                        
+                        <!--Ảnh đại diện-->
+                        <StackPanel>
+                            
+                            <Border Width="110" Height="110" BorderBrush="#D1D5DB" BorderThickness="2" CornerRadius="55">
+                                <Border.Clip>
+                                    <EllipseGeometry Center="55,55" RadiusX="55" RadiusY="55"/>
+                                </Border.Clip>
+                                <Image x:Name="imgAddAvatar" Stretch="UniformToFill"/>
+                            </Border>
+                            
+                            <Button Content="Chọn ảnh" FontSize="15" Width="100" Height="27" Margin="0,10,0,0"  BorderThickness="0" Click="btnChooseImage_Click" />
+                        </StackPanel>
+                        
+                        <!--MSSV-->
+                        <StackPanel Margin="0,10,0,0">
+                            <TextBlock Text="MSSV:" FontSize="15" FontWeight="Bold" Margin="0,0,0,2"/>
+                            <TextBox x:Name="txtStudentId" TextWrapping="Wrap" Padding="5" ToolTip="Nhập mã số sinh viên" Foreground="DarkSlateGray" VerticalContentAlignment="Center" Height="25"/>
+                        </StackPanel>
+                        
+                        
+                        <!--Họ tên-->
+                        <StackPanel Margin="0,10,0,0">
+                            <TextBlock Text="Họ và tên:" FontSize="15" FontWeight="Bold"  Margin="0,0,0,2"/>
+                            <TextBox x:Name="txtFullName" Height="25" Padding="5" ToolTip="Nhập họ tên sinh viên" TextWrapping="Wrap" Foreground="DarkSlateGray" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        
 
-                        <Grid x:Name="NgaySinhVaGioiTinh">
-                            <StackPanel x:Name="NgaySinh1" Grid.Column ="2"  Orientation="Vertical" HorizontalAlignment="Left" Margin="0,0,0,10" Width="147">
-                                <TextBlock x:Name="NgaySinh" Text="Ngày sinh:" Margin="0,0,0,2" FontSize="15" FontWeight="Bold" FontFamily="Times New Roman" HorizontalAlignment="Left" Width="101"/>
-                                <DatePicker x:Name="ChonNgaySinh" Height="25" Width="142" HorizontalAlignment="Left" Language="vi-VN" Foreground="Gray"/>
+                        <!--Ngày sinh và giới tính-->
+                        <Grid Margin="0,10,0,0">
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="Ngày sinh:" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" Margin="0,0,0,2"/>
+                                <DatePicker x:Name="dpDateOfBirth" Height="30" Padding="5" Language="vi-VN" Foreground="DarkSlateGray"/>
                             </StackPanel>
 
-                            <StackPanel x:Name="GioiTinh1" Grid.Column ="2"  Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,10">
-                                <TextBlock x:Name="GioiTinh" Text="Giới tính:" FontSize="15" FontWeight="Bold" FontFamily="Times New Roman" Width="141"/>
-                                <StackPanel x:Name="ChonGioiTinh" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Height="28">
-                                    <RadioButton x:Name="Nam" Content="Nam" FontFamily="Times New Roman" FontSize="15" VerticalAlignment="Center" Margin="0,0,10,0" Width="55"/>
-                                    <RadioButton x:Name="Nu" Content="Nữ" FontFamily="Times New Roman" FontSize="15" VerticalAlignment="Center" Width="60"/>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Giới tính:" FontSize="15" FontWeight="Bold"  Margin="0,0,0,2"/>
+                                <StackPanel Orientation="Horizontal" Height="28">
+                                    <RadioButton x:Name="rbMale" Content="Nam" FontSize="15" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                    <RadioButton x:Name="rbFemale" Content="Nữ"  FontSize="15" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
-                            <TextBlock x:Name="Truong" Text="Trường:" FontSize="15" FontWeight="Bold" FontFamily="Times New Roman" Margin="0,50,0,-55"/>
-                            <ComboBox x:Name="NhapTruong" Height="25" Margin="0,75,0,-15" FontFamily="Times New Roman" VerticalContentAlignment="Center">
+
+                        </Grid>
+
+                        <!--Trường-->
+                        <StackPanel Margin="0,10,0,0">
+                            <TextBlock Text="Trường:" FontSize="15" FontWeight="Bold" Margin="0,0,0,2"/>
+                            <ComboBox x:Name="cboUniversity" Height="25" VerticalContentAlignment="Center" SelectedIndex="5" Padding="5">
                                 <ComboBoxItem Content="UIT - VNUHCM"/>
                                 <ComboBoxItem Content="USSH - VNUHCM"/>
                                 <ComboBoxItem Content="HCMUS - VNUHCM"/>
                                 <ComboBoxItem Content="RMIT University"/>
                                 <ComboBoxItem Content="FPT University"/>
+                                <ComboBoxItem Content="Chọn trường học"/>
                             </ComboBox>
-                        </Grid>
-                        
-                        <StackPanel x:Name="Nut" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,25,0,0">
-                            <Button x:Name="Xoa" Content="Xóa" FontFamily="Times New Roman" FontSize="15" Width="75" Height="27" Margin="0,0,5,0" BorderThickness="0" Click="Xoa_Click"/>
-                            <Button x:Name="Them" Content="Thêm" FontFamily="Times New Roman" FontSize="15" Width="78" Height="27" Background="CornflowerBlue" BorderThickness="0"/>
                         </StackPanel>
+                        
+                        <!--Button Xoá, Thêm-->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,25,0,0">
+                            <Button Content="Xóa" FontSize="15" Width="75" Height="27" Margin="0,0,5,0" BorderThickness="0" Click="btnRemoveStudent_Click"/>
+                            <Button Content="Thêm" FontSize="15" Width="75" Height="27" Background="CornflowerBlue" BorderThickness="0" Click="btnAddStudent_Click"/>
+                        </StackPanel>
+                        
                     </StackPanel>
                 </GroupBox>
-                <GroupBox x:Name="HienThiThongTin" Header="Xem thông tin sinh viên" Padding="10">
-                    <Grid x:Name="OHienThi" Height="265">
-                        <TextBlock x:Name="HuongDanXem" Text="Chọn 1 sinh viên từ danh sách." 
+                
+                <!--Hiển thị thông tin sinh viên--> 
+                <GroupBox Header="Xem thông tin sinh viên" Padding="10">
+
+                    <Grid Height="265">
+                        <TextBlock Text="Hãy chọn 1 sinh viên từ danh sách." 
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" 
-                               Foreground="Gray"/>
+                               Foreground="DarkSlateGray"/>
+                        <local:UserDetail x:Name="ucUserDetail" DataContext="{Binding ElementName=lvDanhSachSV, Path=SelectedItem}" Visibility="Collapsed"/>
                     </Grid>
+
                 </GroupBox>
+                
             </StackPanel>
         </ScrollViewer>
 
-        <ScrollViewer x:Name="ThanhTruotPhai" Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <!--Hiển thị dữ liệu sinh viên và chức năng lọc-->
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="10">
             <StackPanel x:Name="CotPhai">
-                <GroupBox x:Name="OTimKiem" Header="Tìm sinh viên" FontFamily="Times New Roman" Margin="0,0,0,10" Padding="10">
-                    <Grid x:Name="TimKiem">
+                
+                <!--Lọc dữ liệu--> 
+                <GroupBox Header="Tìm sinh viên" Padding="10">
+                    
+                    <Grid>
+                        
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="90"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="Nhap" Text="Tìm theo tên" FontFamily="Times New Roman" Foreground="Gray" Grid.Column="0" Height="25" Margin="0,0,114,0" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
-                        <ComboBox x:Name="NutFilter" Grid.Column="1" Height="25" Margin="41,0,85,0" SelectedIndex="0" Grid.ColumnSpan="2">
-                            <ComboBoxItem x:Name="Filter" Content="Trường" VerticalContentAlignment="Center" FontFamily="Times New Roman"/>
+
+                        <TextBox x:Name="txtSearch" Grid.Column="0" ToolTip="Tìm theo tên, MSSV" TextChanged="txtSearch_TextChanged" Foreground="DarkSlateGray"  Height="25" VerticalContentAlignment="Center" Margin="0,0,10,0" Padding="5"/>
+
+                        <ComboBox x:Name="cboFilter" Grid.Column="1" Height="25" SelectedIndex="5" Padding="5" SelectionChanged="cboFilter_SelectionChanged">
+                            <ComboBoxItem Content="UIT - VNUHCM"/>
+                            <ComboBoxItem Content="USSH - VNUHCM"/>
+                            <ComboBoxItem Content="HCMUS - VNUHCM"/>
+                            <ComboBoxItem Content="RMIT University"/>
+                            <ComboBoxItem Content="FPT University"/>
+                            <ComboBoxItem Content="Chọn trường học"/>
                         </ComboBox>
 
-                        <Button x:Name="ApDungFilter" Grid.Column="2" Content="Áp dụng" FontFamily="Times New Roman" Height="25" Margin="10,0,0,0" BorderThickness="0"/>
                     </Grid>
+                </GroupBox>
+
+                <!--Hiển thị dữ liệu sinh viên-->
+                <GroupBox Header="Danh sách sinh viên" Padding="10" Margin="0,10,0,0" Height="487">
+                    <ListView x:Name="lvDanhSachSV" SelectionChanged="lvDanhSachSV_SelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="MSSV" DisplayMemberBinding="{Binding StudentId}" Width="100"/>
+                                <GridViewColumn Header="Họ và tên" DisplayMemberBinding="{Binding FullName}" Width="180"/>
+                                <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding Gender}" Width="100"/>
+                                <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding DateOfBirth, StringFormat=dd/MM/yyyy}" Width="100"/>
+                                <GridViewColumn Header="Trường" DisplayMemberBinding="{Binding University}" Width="300"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </GroupBox>
 
             </StackPanel>
