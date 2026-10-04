@@ -1,4 +1,4 @@
-﻿<Window x:Class="BTLT01.MainWindow"
+<Window x:Class="BTLT01.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,50 +6,60 @@
         xmlns:local="clr-namespace:BTLT01"
         FontFamily="Times New Roman"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1200">
+        Title="Quản lý thông tin sinh viên - IT008" Height="680" Width="1220"
+        WindowStartupLocation="CenterScreen">
     <Grid>
-        
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="360"/>
+            <ColumnDefinition Width="380"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
+        <!-- CỘT TRÁI: FORM NHẬP LIỆU & STUDENT USERCONTROL -->
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="10">
             <StackPanel>
-                <GroupBox Header="Form điền thông tin sinh viên" Margin="0,0,0,10" Padding="10">
-                    
+                
+                <!-- Form điền / chỉnh sửa thông tin sinh viên với Data Binding -->
+                <GroupBox Header="Form thông tin sinh viên" Margin="0,0,0,10" Padding="10">
                     <StackPanel x:Name="GetInfor">
                         
-                        <!--Ảnh đại diện-->
-                        <StackPanel>
-                            
+                        <!-- Ảnh đại diện -->
+                        <StackPanel HorizontalAlignment="Center">
                             <Border Width="110" Height="110" BorderBrush="#D1D5DB" BorderThickness="2" CornerRadius="55">
                                 <Border.Clip>
                                     <EllipseGeometry Center="55,55" RadiusX="55" RadiusY="55"/>
                                 </Border.Clip>
-                                <Image x:Name="imgAddAvatar" Stretch="UniformToFill"/>
+                                <Image x:Name="imgAddAvatar" Source="{Binding Avatar}" Stretch="UniformToFill"/>
                             </Border>
                             
-                            <Button Content="Chọn ảnh" FontSize="15" Width="100" Height="27" Margin="0,10,0,0"  BorderThickness="0" Click="btnChooseImage_Click" />
+                            <Button Content="Chọn ảnh" FontSize="14" Width="100" Height="27" Margin="0,8,0,0" BorderThickness="0" Background="#E5E7EB" Click="btnChooseImage_Click" Cursor="Hand"/>
                         </StackPanel>
                         
-                        <!--MSSV-->
-                        <StackPanel Margin="0,10,0,0">
+                        <!-- MSSV -->
+                        <StackPanel Margin="0,8,0,0">
                             <TextBlock Text="MSSV:" FontSize="15" FontWeight="Bold" Margin="0,0,0,2"/>
-                            <TextBox x:Name="txtStudentId" TextWrapping="Wrap" Padding="5" ToolTip="Nhập mã số sinh viên" Foreground="DarkSlateGray" VerticalContentAlignment="Center" Height="25"/>
+                            <TextBox x:Name="txtStudentId" 
+                                     Text="{Binding StudentId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     Padding="5" ToolTip="Nhập mã số sinh viên" Foreground="DarkSlateGray" VerticalContentAlignment="Center" Height="28"/>
                         </StackPanel>
                         
-                        
-                        <!--Họ tên-->
-                        <StackPanel Margin="0,10,0,0">
-                            <TextBlock Text="Họ và tên:" FontSize="15" FontWeight="Bold"  Margin="0,0,0,2"/>
-                            <TextBox x:Name="txtFullName" Height="25" Padding="5" ToolTip="Nhập họ tên sinh viên" TextWrapping="Wrap" Foreground="DarkSlateGray" VerticalContentAlignment="Center"/>
+                        <!-- Họ tên -->
+                        <StackPanel Margin="0,8,0,0">
+                            <TextBlock Text="Họ và tên:" FontSize="15" FontWeight="Bold" Margin="0,0,0,2"/>
+                            <TextBox x:Name="txtFullName" 
+                                     Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     Height="28" Padding="5" ToolTip="Nhập họ tên sinh viên" Foreground="DarkSlateGray" VerticalContentAlignment="Center"/>
                         </StackPanel>
-                        
 
-                        <!--Ngày sinh và giới tính-->
-                        <Grid Margin="0,10,0,0">
-                            
+                        <!-- Email -->
+                        <StackPanel Margin="0,8,0,0">
+                            <TextBlock Text="Email:" FontSize="15" FontWeight="Bold" Margin="0,0,0,2"/>
+                            <TextBox x:Name="txtEmail" 
+                                     Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     Height="28" Padding="5" ToolTip="Nhập địa chỉ email" Foreground="DarkSlateGray" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        
+                        <!-- Ngày sinh và Giới tính -->
+                        <Grid Margin="0,8,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -57,95 +67,99 @@
                             
                             <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                 <TextBlock Text="Ngày sinh:" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" Margin="0,0,0,2"/>
-                                <DatePicker x:Name="dpDateOfBirth" Height="30" Padding="5" Language="vi-VN" Foreground="DarkSlateGray"/>
+                                <DatePicker x:Name="dpDateOfBirth" 
+                                            SelectedDate="{Binding DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                            Height="28" Padding="3" Language="vi-VN" Foreground="DarkSlateGray"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
-                                <TextBlock Text="Giới tính:" FontSize="15" FontWeight="Bold"  Margin="0,0,0,2"/>
+                                <TextBlock Text="Giới tính:" FontSize="15" FontWeight="Bold" Margin="0,0,0,2"/>
                                 <StackPanel Orientation="Horizontal" Height="28">
-                                    <RadioButton x:Name="rbMale" Content="Nam" FontSize="15" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                    <RadioButton x:Name="rbFemale" Content="Nữ"  FontSize="15" VerticalAlignment="Center"/>
+                                    <RadioButton x:Name="rbMale" Content="Nam" 
+                                                 IsChecked="{Binding IsMale, Mode=TwoWay}" 
+                                                 FontSize="15" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                    <RadioButton x:Name="rbFemale" Content="Nữ" 
+                                                 IsChecked="{Binding IsFemale, Mode=TwoWay}" 
+                                                 FontSize="15" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
-
                         </Grid>
 
-                        <!--Trường-->
-                        <StackPanel Margin="0,10,0,0">
+                        <!-- Trường -->
+                        <StackPanel Margin="0,8,0,0">
                             <TextBlock Text="Trường:" FontSize="15" FontWeight="Bold" Margin="0,0,0,2"/>
-                            <ComboBox x:Name="cboUniversity" Height="25" VerticalContentAlignment="Center" SelectedIndex="5" Padding="5">
+                            <ComboBox x:Name="cboUniversity" Height="28" VerticalContentAlignment="Center" Padding="5"
+                                      SelectedValue="{Binding University, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValuePath="Content">
                                 <ComboBoxItem Content="UIT - VNUHCM"/>
                                 <ComboBoxItem Content="USSH - VNUHCM"/>
                                 <ComboBoxItem Content="HCMUS - VNUHCM"/>
                                 <ComboBoxItem Content="RMIT University"/>
                                 <ComboBoxItem Content="FPT University"/>
-                                <ComboBoxItem Content="Chọn trường học"/>
                             </ComboBox>
                         </StackPanel>
                         
-                        <!--Button Xoá, Thêm-->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,25,0,0">
-                            <Button Content="Xóa" FontSize="15" Width="75" Height="27" Margin="0,0,5,0" BorderThickness="0" Click="btnRemoveStudent_Click"/>
-                            <Button Content="Thêm" FontSize="15" Width="75" Height="27" Background="CornflowerBlue" BorderThickness="0" Click="btnAddStudent_Click"/>
+                        <!-- Buttons: Làm mới, Xoá, Thêm -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                            <Button Content="Làm mới" FontSize="14" Width="75" Height="28" Margin="0,0,6,0" BorderThickness="0" Background="#E5E7EB" Click="btnReset_Click" ToolTip="Nhập mới sinh viên" Cursor="Hand"/>
+                            <Button Content="Xóa" FontSize="14" Width="75" Height="28" Margin="0,0,6,0" BorderThickness="0" Background="#FCA5A5" Click="btnRemoveStudent_Click" ToolTip="Xóa sinh viên đang chọn" Cursor="Hand"/>
+                            <Button Content="Thêm" FontSize="14" Width="75" Height="28" Background="#3B82F6" Foreground="White" BorderThickness="0" Click="btnAddStudent_Click" ToolTip="Thêm sinh viên mới" Cursor="Hand"/>
                         </StackPanel>
                         
                     </StackPanel>
                 </GroupBox>
                 
-                <!--Hiển thị thông tin sinh viên--> 
+                <!-- Student UserControl hiển thị chi tiết sinh viên --> 
                 <GroupBox Header="Xem thông tin sinh viên" Padding="10">
-
-                    <Grid Height="265">
-                        <TextBlock Text="Hãy chọn 1 sinh viên từ danh sách." 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Center" 
-                               Foreground="DarkSlateGray"/>
-                        <local:UserDetail x:Name="ucUserDetail" DataContext="{Binding ElementName=lvDanhSachSV, Path=SelectedItem}" Visibility="Collapsed"/>
+                    <Grid Height="290">
+                        <TextBlock x:Name="txtEmptyDetail" Text="Hãy chọn 1 sinh viên từ danh sách để xem chi tiết." 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="DarkSlateGray"
+                                   FontSize="14"/>
+                        <local:StudentUserControl x:Name="ucStudentDetail" Visibility="Collapsed"/>
                     </Grid>
-
                 </GroupBox>
                 
             </StackPanel>
         </ScrollViewer>
 
-        <!--Hiển thị dữ liệu sinh viên và chức năng lọc-->
+        <!-- CỘT PHẢI: TÌM KIẾM, LỌC & DANH SÁCH SINH VIÊN (LISTVIEW) -->
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="10">
             <StackPanel x:Name="CotPhai">
                 
-                <!--Lọc dữ liệu--> 
+                <!-- Lọc & Tìm kiếm dữ liệu --> 
                 <GroupBox Header="Tìm sinh viên" Padding="10">
-                    
                     <Grid>
-                        
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox x:Name="txtSearch" Grid.Column="0" ToolTip="Tìm theo tên, MSSV" TextChanged="txtSearch_TextChanged" Foreground="DarkSlateGray"  Height="25" VerticalContentAlignment="Center" Margin="0,0,10,0" Padding="5"/>
+                        <TextBox x:Name="txtSearch" Grid.Column="0" ToolTip="Tìm theo MSSV, Họ tên, Email..." TextChanged="txtSearch_TextChanged" Foreground="DarkSlateGray" Height="28" VerticalContentAlignment="Center" Margin="0,0,10,0" Padding="5"/>
 
-                        <ComboBox x:Name="cboFilter" Grid.Column="1" Height="25" SelectedIndex="5" Padding="5" SelectionChanged="cboFilter_SelectionChanged">
+                        <ComboBox x:Name="cboFilter" Grid.Column="1" Height="28" SelectedIndex="5" Padding="5" SelectionChanged="cboFilter_SelectionChanged">
                             <ComboBoxItem Content="UIT - VNUHCM"/>
                             <ComboBoxItem Content="USSH - VNUHCM"/>
                             <ComboBoxItem Content="HCMUS - VNUHCM"/>
                             <ComboBoxItem Content="RMIT University"/>
                             <ComboBoxItem Content="FPT University"/>
-                            <ComboBoxItem Content="Chọn trường học"/>
+                            <ComboBoxItem Content="Tất cả trường"/>
                         </ComboBox>
-
                     </Grid>
                 </GroupBox>
 
-                <!--Hiển thị dữ liệu sinh viên-->
-                <GroupBox Header="Danh sách sinh viên" Padding="10" Margin="0,10,0,0" Height="487">
-                    <ListView x:Name="lvDanhSachSV" SelectionChanged="lvDanhSachSV_SelectionChanged">
+                <!-- Hiển thị danh sách sinh viên bằng ListView -->
+                <GroupBox Header="Danh sách sinh viên" Padding="10" Margin="0,10,0,0" Height="520">
+                    <ListView x:Name="lvDanhSachSV" SelectionChanged="lvDanhSachSV_SelectionChanged" SelectionMode="Single">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="MSSV" DisplayMemberBinding="{Binding StudentId}" Width="100"/>
-                                <GridViewColumn Header="Họ và tên" DisplayMemberBinding="{Binding FullName}" Width="180"/>
-                                <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding Gender}" Width="100"/>
+                                <GridViewColumn Header="MSSV" DisplayMemberBinding="{Binding StudentId}" Width="95"/>
+                                <GridViewColumn Header="Họ và tên" DisplayMemberBinding="{Binding FullName}" Width="160"/>
+                                <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding Gender}" Width="75"/>
                                 <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding DateOfBirth, StringFormat=dd/MM/yyyy}" Width="100"/>
-                                <GridViewColumn Header="Trường" DisplayMemberBinding="{Binding University}" Width="300"/>
+                                <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180"/>
+                                <GridViewColumn Header="Trường" DisplayMemberBinding="{Binding University}" Width="180"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

@@ -1,0 +1,10 @@
+# Visual Studio and build caches
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.wsuo
+
+# Temporary files
+*.tmp

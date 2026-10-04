@@ -1,15 +1,11 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BTLT01
 {
@@ -18,154 +14,206 @@ namespace BTLT01
     /// </summary>
     public partial class MainWindow : Window
     {
-        ObservableCollection<SinhVien> dsSinhVien = new ObservableCollection<SinhVien>();
+        // 5. Sử dụng ObservableCollection<Student>
+        public ObservableCollection<Student> dsSinhVien { get; set; } = new ObservableCollection<Student>();
+
+        // 3. Đối tượng Student dùng cho Data Binding trên Form
+        public Student FormStudent { get; set; } = new Student();
+
+        private ICollectionView? _studentsView;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            lvDanhSachSV.ItemsSource = dsSinhVien;
-
             TaoDuLieuMau();
+
+            _studentsView = CollectionViewSource.GetDefaultView(dsSinhVien);
+            _studentsView.Filter = FilterStudent;
+            lvDanhSachSV.ItemsSource = _studentsView;
+
+            // Thiết lập trạng thái ban đầu của Form
+            ResetForm();
         }
 
         // Tạo dữ liệu mẫu cho danh sách sinh viên
         private void TaoDuLieuMau()
         {
-            dsSinhVien.Add(new SinhVien() { StudentId = "25520001", FullName = "Nguyễn Văn Anh", DateOfBirth = new DateTime(2007, 3, 14), Gender = "Nam", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25520002", FullName = "Trần Thị Bé", DateOfBirth = new DateTime(2007, 8, 20), Gender = "Nữ", University = "USSH - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25520003", FullName = "Lê Hoàng Cường", DateOfBirth = new DateTime(2007, 12, 5), Gender = "Nam", University = "HCMUS - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234104", FullName = "Phạm Minh Đạt", DateOfBirth = new DateTime(2007, 1, 15), Gender = "Nam", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234105", FullName = "Vũ Hải Yến", DateOfBirth = new DateTime(2007, 4, 22), Gender = "Nữ", University = "RMIT University", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234106", FullName = "Đặng Trọng Đại", DateOfBirth = new DateTime(2007, 7, 10), Gender = "Nam", University = "FPT University", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234107", FullName = "Bùi Thu Thảo", DateOfBirth = new DateTime(2007, 9, 30), Gender = "Nữ", University = "USSH - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234108", FullName = "Hồ Quang Hiếu", DateOfBirth = new DateTime(2007, 11, 2), Gender = "Nam", University = "HCMUS - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234109", FullName = "Ngô Thùy Trang", DateOfBirth = new DateTime(2007, 5, 18), Gender = "Nữ", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234110", FullName = "Đinh Xuân Hinh", DateOfBirth = new DateTime(2007, 2, 28), Gender = "Nam", University = "RMIT University", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234111", FullName = "Lý Bích Ngọc", DateOfBirth = new DateTime(2007, 6, 14), Gender = "Nữ", University = "FPT University", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234112", FullName = "Phan Quốc Toản", DateOfBirth = new DateTime(2007, 8, 9), Gender = "Nam", University = "HCMUS - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234113", FullName = "Trịnh Thảo Nguyên", DateOfBirth = new DateTime(2007, 10, 25), Gender = "Nữ", University = "USSH - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234114", FullName = "Lương Vỹ Minh", DateOfBirth = new DateTime(2007, 3, 11), Gender = "Nam", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234115", FullName = "Châu Tấn Phát", DateOfBirth = new DateTime(2007, 1, 5), Gender = "Nam", University = "RMIT University", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234116", FullName = "Vương Lệ Quân", DateOfBirth = new DateTime(2007, 7, 7), Gender = "Nữ", University = "HCMUS - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234117", FullName = "Nguyễn Trọng Tấn", DateOfBirth = new DateTime(2007, 12, 19), Gender = "Nam", University = "FPT University", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234118", FullName = "Trần Ngọc Hà", DateOfBirth = new DateTime(2007, 2, 14), Gender = "Nữ", University = "USSH - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234119", FullName = "Lê Tuấn Kiệt", DateOfBirth = new DateTime(2007, 11, 11), Gender = "Nam", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234120", FullName = "Hoàng Nhã Kỳ", DateOfBirth = new DateTime(2007, 8, 3), Gender = "Nữ", University = "RMIT University", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234121", FullName = "Đoàn Gia Huy", DateOfBirth = new DateTime(2007, 5, 27), Gender = "Nam", University = "HCMUS - VNUHCM", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234122", FullName = "Đào Tuyết Mai", DateOfBirth = new DateTime(2007, 10, 8), Gender = "Nữ", University = "FPT University", Avatar = "/Test.jpg" });
-            dsSinhVien.Add(new SinhVien() { StudentId = "25234123", FullName = "Võ Minh Trí", DateOfBirth = new DateTime(2007, 9, 16), Gender = "Nam", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25520001", FullName = "Nguyễn Văn Anh", DateOfBirth = new DateTime(2007, 3, 14), Gender = "Nam", Email = "25520001@gm.uit.edu.vn", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25520002", FullName = "Trần Thị Bé", DateOfBirth = new DateTime(2007, 8, 20), Gender = "Nữ", Email = "25520002@ussh.edu.vn", University = "USSH - VNUHCM", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25520003", FullName = "Lê Hoàng Cường", DateOfBirth = new DateTime(2007, 12, 5), Gender = "Nam", Email = "25520003@hcmus.edu.vn", University = "HCMUS - VNUHCM", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234104", FullName = "Phạm Minh Đạt", DateOfBirth = new DateTime(2007, 1, 15), Gender = "Nam", Email = "25234104@gm.uit.edu.vn", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234105", FullName = "Vũ Hải Yến", DateOfBirth = new DateTime(2007, 4, 22), Gender = "Nữ", Email = "haiyen.vu@rmit.edu.vn", University = "RMIT University", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234106", FullName = "Đặng Trọng Đại", DateOfBirth = new DateTime(2007, 7, 10), Gender = "Nam", Email = "daidt@fpt.edu.vn", University = "FPT University", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234107", FullName = "Bùi Thu Thảo", DateOfBirth = new DateTime(2007, 9, 30), Gender = "Nữ", Email = "25234107@ussh.edu.vn", University = "USSH - VNUHCM", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234108", FullName = "Hồ Quang Hiếu", DateOfBirth = new DateTime(2007, 11, 2), Gender = "Nam", Email = "25234108@hcmus.edu.vn", University = "HCMUS - VNUHCM", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234109", FullName = "Ngô Thùy Trang", DateOfBirth = new DateTime(2007, 5, 18), Gender = "Nữ", Email = "25234109@gm.uit.edu.vn", University = "UIT - VNUHCM", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234110", FullName = "Đinh Xuân Hinh", DateOfBirth = new DateTime(2007, 2, 28), Gender = "Nam", Email = "xuanhinh.dinh@rmit.edu.vn", University = "RMIT University", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234111", FullName = "Lý Bích Ngọc", DateOfBirth = new DateTime(2007, 6, 14), Gender = "Nữ", Email = "ngoclb@fpt.edu.vn", University = "FPT University", Avatar = "/Test.jpg" });
+            dsSinhVien.Add(new Student() { StudentId = "25234112", FullName = "Phan Quốc Toản", DateOfBirth = new DateTime(2007, 8, 9), Gender = "Nam", Email = "25234112@hcmus.edu.vn", University = "HCMUS - VNUHCM", Avatar = "/Test.jpg" });
+        }
+
+        // Đặt lại Form về trạng thái nhập mới
+        private void ResetForm()
+        {
+            lvDanhSachSV.SelectedItem = null;
+            FormStudent = new Student
+            {
+                Gender = "Nam",
+                University = "UIT - VNUHCM",
+                Avatar = "/Test.jpg"
+            };
+            GetInfor.DataContext = FormStudent;
+
+            ucStudentDetail.Visibility = Visibility.Collapsed;
+            txtEmptyDetail.Visibility = Visibility.Visible;
+        }
+
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+            ResetForm();
         }
 
         // Chọn ảnh đại diện cho sinh viên
         private void btnChooseImage_Click(object sender, RoutedEventArgs e)
         {
-            // Mở FileDialog
             OpenFileDialog dialog = new OpenFileDialog();
-
-            dialog.Filter = "Image files (*.png;*.jpg)|*.png;*.jpg";
+            dialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
 
             if (dialog.ShowDialog() == true)
             {
-                imgAddAvatar.Source = new BitmapImage(new Uri(dialog.FileName));
+                // Cập nhật thông qua Data Binding trên đối tượng Student
+                FormStudent.Avatar = dialog.FileName;
             }
         }
 
-        // Thêm sinh viên mới vào danh sách
+        // 3. Thêm sinh viên mới (sử dụng thông tin từ FormStudent thông qua Data Binding)
         private void btnAddStudent_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtStudentId.Text))
+            // Kiểm tra dữ liệu trực tiếp trên đối tượng FormStudent
+            if (string.IsNullOrWhiteSpace(FormStudent.StudentId))
             {
-                MessageBox.Show("Vui lòng nhập MSSV!");
+                MessageBox.Show("Vui lòng nhập MSSV!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtFullName.Text))
+            if (string.IsNullOrWhiteSpace(FormStudent.FullName))
             {
-                MessageBox.Show("Vui lòng nhập họ và tên!");
+                MessageBox.Show("Vui lòng nhập họ và tên!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (dpDateOfBirth.SelectedDate == null)
+            if (string.IsNullOrWhiteSpace(FormStudent.Email))
             {
-                MessageBox.Show("Vui lòng chọn ngày sinh!");
+                MessageBox.Show("Vui lòng nhập email!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (rbMale.IsChecked != true && rbFemale.IsChecked != true)
+            if (FormStudent.DateOfBirth == null)
             {
-                MessageBox.Show("Vui lòng chọn giới tính!");
+                MessageBox.Show("Vui lòng chọn ngày sinh!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (cboUniversity.SelectedIndex == 5)
+            if (string.IsNullOrWhiteSpace(FormStudent.University) || FormStudent.University.Contains("Chọn trường"))
             {
-                MessageBox.Show("Vui lòng chọn trường!");
+                MessageBox.Show("Vui lòng chọn trường học!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            SinhVien newSinhVien = new SinhVien {
-                StudentId = txtStudentId.Text,
-                FullName = txtFullName.Text,
-                DateOfBirth = dpDateOfBirth.SelectedDate,
-                Gender = (rbMale.IsChecked == true) ? "Nam" : "Nữ",
-                University = cboUniversity.Text,
-                Avatar = (imgAddAvatar.Source != null) ? ((BitmapImage)imgAddAvatar.Source).UriSource.ToString() : null
-            };
-            
-            dsSinhVien.Add(newSinhVien);
+            // Kiểm tra trùng MSSV với sinh viên khác trong danh sách
+            if (dsSinhVien.Any(s => s != FormStudent && s.StudentId.Trim().Equals(FormStudent.StudentId.Trim(), StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show("MSSV này đã tồn tại trong danh sách!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Nếu sinh viên này đã có trong danh sách
+            if (dsSinhVien.Contains(FormStudent))
+            {
+                MessageBox.Show("Sinh viên này đã có trong danh sách. Khi bạn chỉnh sửa trên form, thông tin đã được tự động cập nhật!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // 5. Thêm sinh viên mới vào ObservableCollection
+            dsSinhVien.Add(FormStudent);
+            lvDanhSachSV.SelectedItem = FormStudent;
+
+            MessageBox.Show("Thêm sinh viên thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Xoá sinh viên khỏi danh sách
+        // 5. Xoá sinh viên khỏi danh sách
         private void btnRemoveStudent_Click(object sender, RoutedEventArgs e)
         {
-            // Nếu chọn 1 sinh viên để xoá
-            if (lvDanhSachSV.SelectedItems.Count == 1)
+            if (lvDanhSachSV.SelectedItem is not Student selectedStudent)
             {
-                dsSinhVien.Remove((SinhVien)lvDanhSachSV.SelectedItem);
+                MessageBox.Show("Vui lòng chọn một sinh viên từ danh sách để xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Nếu chọn nhiều sinh viên để xoá
-            List<SinhVien> selectedStudents = lvDanhSachSV.SelectedItems.Cast<SinhVien>().ToList();
-            foreach (SinhVien x in selectedStudents)
+            var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa sinh viên {selectedStudent.FullName} (MSSV: {selectedStudent.StudentId}) không?",
+                                         "Xác nhận xóa",
+                                         MessageBoxButton.YesNo,
+                                         MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
             {
-                dsSinhVien.Remove(x);
+                dsSinhVien.Remove(selectedStudent);
+                ResetForm();
             }
         }
 
-        // Lọc dữ liệu
-        private void filterData()
+        // 6. Chọn sinh viên: thông tin hiển thị trên Form và UserControl qua Binding
+        // Khi chỉnh sửa trên Form, thông tin trên ListView và UserControl sẽ tự động cập nhật
+        private void lvDanhSachSV_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lvDanhSachSV == null || dsSinhVien == null)
+            if (lvDanhSachSV.SelectedItem is Student selected)
             {
-                return;
+                FormStudent = selected;
+                GetInfor.DataContext = FormStudent;
+                ucStudentDetail.DataContext = FormStudent;
+
+                ucStudentDetail.Visibility = Visibility.Visible;
+                txtEmptyDetail.Visibility = Visibility.Collapsed;
             }
+            else
+            {
+                ucStudentDetail.Visibility = Visibility.Collapsed;
+                txtEmptyDetail.Visibility = Visibility.Visible;
+            }
+        }
 
-            string userSearched = txtSearch.Text.ToLower();
-            string? filterUniversity = (cboFilter.SelectedItem as ComboBoxItem)?.Content.ToString();
+        // Lọc và tìm kiếm sinh viên
+        private bool FilterStudent(object obj)
+        {
+            if (obj is not Student sv) return false;
 
-            var results = dsSinhVien.Where(
-                sv => (string.IsNullOrWhiteSpace(userSearched) || sv.StudentId.ToLower().Contains(userSearched) || sv.FullName.ToLower().Contains(userSearched)) 
-                && (cboFilter.SelectedIndex == 5 || sv.University == filterUniversity))
-                .ToList();
+            string search = txtSearch?.Text?.Trim().ToLower() ?? "";
+            string? filterUni = (cboFilter?.SelectedItem as ComboBoxItem)?.Content.ToString();
 
-            lvDanhSachSV.ItemsSource = results;
+            bool matchSearch = string.IsNullOrWhiteSpace(search) ||
+                               (!string.IsNullOrEmpty(sv.StudentId) && sv.StudentId.ToLower().Contains(search)) ||
+                               (!string.IsNullOrEmpty(sv.FullName) && sv.FullName.ToLower().Contains(search)) ||
+                               (!string.IsNullOrEmpty(sv.Email) && sv.Email.ToLower().Contains(search));
+
+            bool matchUni = cboFilter == null ||
+                            cboFilter.SelectedIndex == 5 ||
+                            cboFilter.SelectedIndex == -1 ||
+                            filterUni == "Tất cả trường" ||
+                            filterUni == "Chọn trường học" ||
+                            sv.University == filterUni;
+
+            return matchSearch && matchUni;
         }
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            filterData();
+            _studentsView?.Refresh();
         }
 
         private void cboFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            filterData();
-        }
-
-        // Hiển thị thông tin chi tiết của sinh viên khi chọn trong danh sách
-        private void lvDanhSachSV_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ucUserDetail.Visibility = lvDanhSachSV.SelectedItem != null ? Visibility.Visible : Visibility.Collapsed;
+            _studentsView?.Refresh();
         }
     }
 }
