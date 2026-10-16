@@ -20,7 +20,7 @@
                 
                 <!-- Form điền / chỉnh sửa thông tin sinh viên với Data Binding -->
                 <GroupBox Header="Form thông tin sinh viên" Margin="0,0,0,10" Padding="10">
-                    <StackPanel x:Name="GetInfor">
+                    <StackPanel x:Name="GetInfor" DataContext="{Binding Editor.FormStudent}">
                         
                         <!-- Ảnh đại diện -->
                         <StackPanel HorizontalAlignment="Center">
@@ -31,7 +31,7 @@
                                 <Image x:Name="imgAddAvatar" Source="{Binding Avatar}" Stretch="UniformToFill"/>
                             </Border>
                             
-                            <Button Content="Chọn ảnh" FontSize="14" Width="100" Height="27" Margin="0,8,0,0" BorderThickness="0" Background="#E5E7EB" Click="btnChooseImage_Click" Cursor="Hand"/>
+                            <Button Content="Chọn ảnh" FontSize="14" Width="100" Height="27" Margin="0,8,0,0" BorderThickness="0" Background="#E5E7EB" Cursor="Hand"/>
                         </StackPanel>
                         
                         <!-- MSSV -->
@@ -101,9 +101,9 @@
                         
                         <!-- Buttons: Làm mới, Xoá, Thêm -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
-                            <Button Content="Làm mới" FontSize="14" Width="75" Height="28" Margin="0,0,6,0" BorderThickness="0" Background="#E5E7EB" Click="btnReset_Click" ToolTip="Nhập mới sinh viên" Cursor="Hand"/>
-                            <Button Content="Xóa" FontSize="14" Width="75" Height="28" Margin="0,0,6,0" BorderThickness="0" Background="#FCA5A5" Click="btnRemoveStudent_Click" ToolTip="Xóa sinh viên đang chọn" Cursor="Hand"/>
-                            <Button Content="Thêm" FontSize="14" Width="75" Height="28" Background="#3B82F6" Foreground="White" BorderThickness="0" Click="btnAddStudent_Click" ToolTip="Thêm sinh viên mới" Cursor="Hand"/>
+                            <Button Content="Làm mới" FontSize="14" Width="75" Height="28" Margin="0,0,6,0" BorderThickness="0" Background="#E5E7EB" Command="{Binding Editor.ClearCommand}" ToolTip="Nhập mới sinh viên" Cursor="Hand"/>
+                            <Button Content="Xóa" FontSize="14" Width="75" Height="28" Margin="0,0,6,0" BorderThickness="0" Background="#FCA5A5" Command="{Binding StudentList.DeleteCommand}" ToolTip="Xóa sinh viên đang chọn" Cursor="Hand"/>
+                            <Button Content="Thêm" FontSize="14" Width="75" Height="28" Background="#3B82F6" Foreground="White" BorderThickness="0" Command="{Binding StudentList.SaveCommand}" ToolTip="Thêm sinh viên mới" Cursor="Hand"/>
                         </StackPanel>
                         
                     </StackPanel>
@@ -136,9 +136,9 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox x:Name="txtSearch" Grid.Column="0" ToolTip="Tìm theo MSSV, Họ tên, Email..." TextChanged="txtSearch_TextChanged" Foreground="DarkSlateGray" Height="28" VerticalContentAlignment="Center" Margin="0,0,10,0" Padding="5"/>
+                        <TextBox x:Name="txtSearch" Grid.Column="0" ToolTip="Tìm theo MSSV, Họ tên, Email..." Foreground="DarkSlateGray" Height="28" VerticalContentAlignment="Center" Margin="0,0,10,0" Padding="5"/>
 
-                        <ComboBox x:Name="cboFilter" Grid.Column="1" Height="28" SelectedIndex="5" Padding="5" SelectionChanged="cboFilter_SelectionChanged">
+                        <ComboBox x:Name="cboFilter" Grid.Column="1" Height="28" SelectedIndex="5" Padding="5">
                             <ComboBoxItem Content="UIT - VNUHCM"/>
                             <ComboBoxItem Content="USSH - VNUHCM"/>
                             <ComboBoxItem Content="HCMUS - VNUHCM"/>
@@ -151,7 +151,7 @@
 
                 <!-- Hiển thị danh sách sinh viên bằng ListView -->
                 <GroupBox Header="Danh sách sinh viên" Padding="10" Margin="0,10,0,0" Height="520">
-                    <ListView x:Name="lvDanhSachSV" SelectionChanged="lvDanhSachSV_SelectionChanged" SelectionMode="Single">
+                    <ListView x:Name="lvDanhSachSV" SelectionMode="Single" ItemsSource="{Binding dsSinhVien}" SelectedItem="{Binding StudentList.SelectedStudent, Mode=TwoWay}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="MSSV" DisplayMemberBinding="{Binding StudentId}" Width="95"/>

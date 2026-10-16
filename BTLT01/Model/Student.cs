@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BTLT01
+namespace BTLT01.Models
 {
     public class Student : INotifyPropertyChanged
     {
